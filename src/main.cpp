@@ -17,8 +17,8 @@ MAPPING:
 int tolerance = 80;
 int unchanged = 0
 
-int servoPins [2];
-Servo servos [2];
+int servoPin;
+Servo servo;
 
 int pressurePins [2];
 
@@ -28,10 +28,7 @@ void setup() {
   
   Serial.begin(9600);
   
-  for (int index = 0; index < 2; index++) {
-    servos[index].attach(servoPins[index]);
-  }
-  
+  servo.attach(servoPin);
   adjustAngle(80);
   
 }
@@ -42,8 +39,7 @@ void adjustAngle(int newAngle) {
   
   // adjust to set correct angle
   
-  servos[0].write(newAngle);
-  servos[1].write(newAngle + 20);
+  servo.write(newAngle);
   
 }
 
