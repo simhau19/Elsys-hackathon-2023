@@ -35,7 +35,9 @@ void setup() {
 
 void adjustAngle(int newAngle) {
   
-  Serial.println("Adjusting to " + newAngle + " °.");
+  Serial.print("\nAdjusting to ");
+  Serial.print(newAngle);
+  Serial.print(" °.");
   
   // adjust to set correct angle
   
