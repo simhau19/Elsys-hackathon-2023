@@ -1,5 +1,6 @@
 #include <Arduino.h>
-
+#include <ESP32Servo.h>
+#include <main.h>
 /*
 MAPPING:
   
@@ -17,7 +18,7 @@ MAPPING:
 int tolerance = 80;
 int unchanged = 0;
 
-int servoPin;
+#define servoPin 12
 Servo servo;
 
 int pressurePins [2];
@@ -64,17 +65,25 @@ bool pressureChanged() {
   
   pressureMeasurements[0] = newA;
   pressureMeasurements[1] = newB;
-  
+  return true;
 }
 
-int counter = 0;
-
 void loop() {
+  for (int i = 0; i < 45; i++)
+  {
+    adjustAngle(i);
+    delay(20);
+  }
   
-  adjustAngle(80 + counter);
-  counter++;
   
   Serial.println("Hello world!");
+  delay(1000);
+
+  for (int i = 0; i < 45; i++)
+  {
+    adjustAngle(45-i);
+    delay(20);
+  }
   delay(1000);
   
 }
