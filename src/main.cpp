@@ -15,7 +15,7 @@ MAPPING:
 */
 
 int tolerance = 80;
-int unchanged = 0
+int unchanged = 0;
 
 int servoPin;
 Servo servo;
@@ -51,8 +51,8 @@ bool pressureChanged() {
   int newA = analogRead(pressurePins[0]);
   int newB = analogRead(pressurePins[1]);
   
-  int changeA = (newA - currentA) * (newA - currentA)
-  int changeB = (newB - currentB) * (newB - currentB)
+  int changeA = (newA - currentA) * (newA - currentA);
+  int changeB = (newB - currentB) * (newB - currentB);
   
   if (changeA + changeB < tolerance) {
     unchanged++;
@@ -72,7 +72,7 @@ void loop() {
   adjustAngle(80 + counter);
   counter++;
   
-  Serial.println("Hello world! LOL");
+  Serial.println("Hello world!");
   delay(1000);
   
 }
