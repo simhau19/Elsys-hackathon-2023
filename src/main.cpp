@@ -1,7 +1,7 @@
 #include <Arduino.h>
-#include <ESP32Servo.h>
+#include <Servo.h>
 #include <main.h>
-#include <nettside.h>
+//#include <nettside.h>
 /*
 MAPPING:
   
@@ -19,7 +19,7 @@ MAPPING:
 int tolerance = 80;
 int unchanged = 0;
 
-#define servoPin 12
+#define servoPin 8
 Servo servo;
 
 int pressurePins [2];
@@ -31,7 +31,7 @@ void setup() {
   Serial.begin(9600);
   
   servo.attach(servoPin);
-  nettside_init();
+  //nettside_init();
   
 }
 
@@ -72,7 +72,7 @@ bool pressureChanged() {
 }
 
 void loop() {
-  /*
+  
   for (int i = 0; i < 45; i++)
   {
     adjustAngle(i);
@@ -88,7 +88,8 @@ void loop() {
     delay(20);
   }
   delay(1000);
-  */
+  Serial.println("Hei");
+  
   
 }
 
