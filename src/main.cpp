@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include <Servo.h>
 #include <main.h>
+#include <HX711.h>
+#include <stdio.h>
 //#include <nettside.h>
 /*
 MAPPING:
@@ -15,7 +17,8 @@ MAPPING:
   Servo 1     
 
 */
-
+HX711 loadcell1;
+HX711 loadcell2;
 int tolerance = 80;
 int unchanged = 0;
 
@@ -32,6 +35,12 @@ void setup() {
   
   servo.attach(servoPin);
   //nettside_init();
+  loadcell1.begin(3, 2);
+  loadcell1.set_scale(5895655);
+  loadcell1.set_offset(0);
+  loadcell2.begin(5,6);
+  loadcell2.set_scale(5895655);
+  loadcell2.set_offset(0);
   
 }
 
@@ -87,12 +96,23 @@ void loop() {
     adjustAngle(45-i);
     delay(20);
   }
-  delay(1000);
-  Serial.println("Hei");
+  delay(10);
+  //Serial.println("Hei");
   
-  
+  {
+  //char loadcellValues[100];
+  //sprintf(loadcellValues, "{loadcell_1:%d,loadcell_2:%d}",loadcell1.get_value(),loadcell2.get_value());
+  Serial.print("{loadcell_1:");
+  Serial.print(loadcell1.get_value(5),1);
+  Serial.print(",loadcell_2:");
+  Serial.print(loadcell2.get_value(5),1);
+  Serial.println("}");
+  //Serial.println(loadcell1.get_value(5));
+  }
+
 }
 
 int getPressure(){
   return 20;
 }
+
