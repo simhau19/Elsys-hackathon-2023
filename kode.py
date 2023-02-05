@@ -1,6 +1,8 @@
 import serial
 import json
 import pygame
+import time
+import math
 
 
 arduinoSerial = serial.Serial('COM6')
@@ -11,6 +13,9 @@ screen_height = 540
 white = (255,255,255)
 black = (0,0,0)
 
+movement_treshold = 600
+time_treshold = 8
+
 
 
 def main():
@@ -18,6 +23,16 @@ def main():
     screen = pygame.display.set_mode((screen_width, screen_height))
     servo_on = True
     button_color = (255,0,0)
+
+    old_scale = 0
+    timer = time.time()
+
+    font = pygame.font.SysFont('arial', 30)
+    olga_text = font.render( "Liggesår alert!!! Olga må flyttes!", True, (255,255,255) )
+    olga_rect = olga_text.get_rect()
+
+    
+
 
     run = True
     while run:
@@ -34,20 +49,35 @@ def main():
         screen.fill((0,0,0))
         mouse = pygame.mouse.get_pos()
 
+        
+
         if(servo_on): button_color = (255,0,0)
         else: button_color = (0,255,0)
         pygame.draw.rect(screen, button_color, [screen_width/2, screen_height/2, 100,100])
 
+        
         if(arduinoSerial.in_waiting):
-            text = arduinoSerial.readline().decode()
+            
             try:
-                data = json.loads(text)
-                print("1:", data["loadcell_1"] , "\n2:", data["loadcell_2"])
+                raw_text = arduinoSerial.readline().decode()
+                data = json.loads(raw_text)
+                #print("1:", data["loadcell_1"] , "\n2:", data["loadcell_2"])
+                scale = int(data["loadcell_2"])
+                difference = scale - old_scale
+                if(abs(difference) > movement_treshold):
+                    old_scale = scale
+                    timer = time.time()
+                    print("reset")
+                    
+                
+                
             except:
-                for char in text:
-                    print(ord(char))
+                None
 
-   
+        
+        if(time.time() - timer > time_treshold):
+            screen.blit(olga_text, olga_rect)
+
         pygame.display.update()
 
         
