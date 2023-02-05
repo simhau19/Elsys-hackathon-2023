@@ -25,6 +25,8 @@ int unchanged = 0;
 #define servoPin 8
 Servo servo;
 
+bool servoOn = true;
+
 int pressurePins [2];
 
 int pressureMeasurements [2];
@@ -82,29 +84,47 @@ bool pressureChanged() {
 
 void loop() {
   
-  for (int i = 0; i < 45; i++)
-  {
-    adjustAngle(i);
-    delay(20);
-  }
-  
-  
-  delay(1000);
+  if(servoOn){
+    for (int i = 0; i < 45; i++)
+    {
+      adjustAngle(i);
+      delay(20);
+    }
+    
+    
+    delay(100);
 
-  for (int i = 0; i < 45; i++)
-  {
-    adjustAngle(45-i);
-    delay(20);
+    for (int i = 0; i < 45; i++)
+    {
+      adjustAngle(45-i);
+      delay(20);
+    }
+    delay(100);
   }
-  delay(10);
-  //Serial.println("Hei");
+
+  if(Serial.available()){
+    char byte = Serial.read();
+    Serial.println(byte);
+    while(Serial.available()){
+      Serial.read();
+    }
+
+    if(byte == '1'){
+      servoOn = true;
+    }else{
+      servoOn = false;
+      adjustAngle(45);
+    }
+
+  }
+  
   
   {
   //char loadcellValues[100];
   //sprintf(loadcellValues, "{loadcell_1:%d,loadcell_2:%d}",loadcell1.get_value(),loadcell2.get_value());
-  Serial.print("{loadcell_1:");
+  Serial.print("{\"loadcell_1\":");
   Serial.print(loadcell1.get_value(5),1);
-  Serial.print(",loadcell_2:");
+  Serial.print(",\"loadcell_2\":");
   Serial.print(loadcell2.get_value(5),1);
   Serial.println("}");
   //Serial.println(loadcell1.get_value(5));
