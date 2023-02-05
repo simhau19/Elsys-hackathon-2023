@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <ESP32Servo.h>
 #include <main.h>
+#include <nettside.h>
 /*
 MAPPING:
   
@@ -30,15 +31,17 @@ void setup() {
   Serial.begin(9600);
   
   servo.attach(servoPin);
-  adjustAngle(80);
+  nettside_init();
   
 }
 
 void adjustAngle(int newAngle) {
   
+  /*
   Serial.print("\nAdjusting to ");
   Serial.print(newAngle);
   Serial.print(" °.");
+  */
   
   // adjust to set correct angle
   
@@ -69,6 +72,7 @@ bool pressureChanged() {
 }
 
 void loop() {
+  /*
   for (int i = 0; i < 45; i++)
   {
     adjustAngle(i);
@@ -76,7 +80,6 @@ void loop() {
   }
   
   
-  Serial.println("Hello world!");
   delay(1000);
 
   for (int i = 0; i < 45; i++)
@@ -85,5 +88,10 @@ void loop() {
     delay(20);
   }
   delay(1000);
+  */
   
+}
+
+int getPressure(){
+  return 20;
 }

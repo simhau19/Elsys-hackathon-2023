@@ -2,3 +2,4 @@
 
 void adjustAngle(int newAngle);
 bool pressureChanged();
+int getPressure();
